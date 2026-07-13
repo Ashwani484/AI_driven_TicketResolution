@@ -1,0 +1,272 @@
+[
+  {
+    "kb_id": "KB-NET-001",
+    "category": "Network",
+    "title": "Intermittent VPN Tunnel Drops (IPSec Phase 2 Mismatch)",
+    "symptoms": "Remote users report frequent disconnections from the corporate VPN. Logs show Phase 1 succeeds but Phase 2 renegotiation fails.",
+    "root_cause_analysis": "Mismatched IPSec lifetime settings between the local and remote VPN gateways, causing SA (Security Association) expiration at different intervals.",
+    "resolution_steps": ["Verify Phase 2 SA lifetime on both gateways.", "Standardize SA lifetime to 3600 seconds on both endpoints.", "Clear existing IPSec SAs and restart the tunnel."],
+    "keywords": ["VPN", "IPSec", "Tunnel", "Disconnection", "Phase 2"]
+  },
+  {
+    "kb_id": "KB-NET-002",
+    "category": "Network",
+    "title": "High Latency and Packet Loss on WAN Link",
+    "symptoms": "Branch office experiences slow application performance. Ping tests show latency spikes and 10-15% packet loss.",
+    "root_cause_analysis": "A saturated WAN link due to un-QoS'd backup traffic running during business hours, exhausting available bandwidth.",
+    "resolution_steps": ["Check bandwidth utilization on the edge router.", "Identify top talkers (e.g., backup traffic).", "Apply QoS policies to prioritize VoIP/critical apps and throttle backup traffic."],
+    "keywords": ["Latency", "Packet Loss", "WAN", "QoS", "Bandwidth"]
+  },
+  {
+    "kb_id": "KB-NET-003",
+    "category": "Network",
+    "title": "Internal DNS Resolution Failure",
+    "symptoms": "Users cannot access internal intranet sites by hostname, but IP address works.",
+    "root_cause_analysis": "The primary internal DNS server service crashed or the zone file became corrupted, and clients are not falling back to the secondary DNS properly.",
+    "resolution_steps": ["Restart the DNS Server service on the primary domain controller.", "Verify DNS zone transfers are succeeding to the secondary server.", "Flush client DNS resolver cache (ipconfig /flushdns)."],
+    "keywords": ["DNS", "Resolution", "Hostname", "Intranet"]
+  },
+  {
+    "kb_id": "KB-NET-004",
+    "category": "Network",
+    "title": "Switch Port Flapping due to Bad Cable",
+    "symptoms": "A specific endpoint loses network connectivity repeatedly. Switch logs show the interface transitioning up and down constantly.",
+    "root_cause_analysis": "Physical layer issue. A degraded Ethernet cable or damaged keystone jack causing intermittent electrical contact.",
+    "resolution_steps": ["Check switch port logs for link state changes.", "Test the physical cable with a cable tester.", "Replace the patch cable from the wall jack to the PC or the switch panel."],
+    "keywords": ["Port Flapping", "Interface", "Physical Layer", "Cable"]
+  },
+  {
+    "kb_id": "KB-NET-005",
+    "category": "Network",
+    "title": "BGP Route Flapping to ISP",
+    "symptoms": "Inbound and outbound internet traffic drops for 30 seconds every few minutes. BGP neighbor status shows frequent resets.",
+    "root_cause_analysis": "Keepalive failures to the ISP peer due to a faulty upstream interface or misconfigured hold-timers.",
+    "resolution_steps": ["Check BGP neighbor status and hold-timer configurations.", "Verify physical link integrity to the ISP router.", "Coordinate with ISP NOC to match BGP timer configurations."],
+    "keywords": ["BGP", "Routing", "Flapping", "ISP", "BGP Neighbor"]
+  },
+  {
+    "kb_id": "KB-NET-006",
+    "category": "Network",
+    "title": "DHCP Scope Exhaustion",
+    "symptoms": "New devices connecting to the Wi-Fi or LAN get a 169.254.x.x (APIPA) address and cannot access the internet.",
+    "root_cause_analysis": "The DHCP pool for the client VLAN has run out of available IP addresses due to a high volume of mobile devices and long lease times.",
+    "resolution_steps": ["Check DHCP server scope statistics.", "Reduce DHCP lease time from 8 days to 8 hours.", "Expand the subnet mask (e.g., /24 to /23) or create a new scope for wireless clients."],
+    "keywords": ["DHCP", "APIPA", "IP Conflict", "Lease", "Scope Exhaustion"]
+  },
+  {
+    "kb_id": "KB-NET-007",
+    "category": "Network",
+    "title": "Spanning Tree Protocol (STP) Broadcast Storm",
+    "symptoms": "Entire network segment grinds to a halt. Switches report 100% CPU utilization and link lights are solid.",
+    "root_cause_analysis": "A user plugged both ends of an unmanaged switch into the wall, creating a Layer 2 loop on ports without BPDU Guard enabled.",
+    "resolution_steps": ["Identify the switch port receiving the most broadcast traffic.", "Administratively shut down the offending port.", "Enable BPDU Guard and PortFast on all edge access ports to prevent recurrence."],
+    "keywords": ["STP", "Broadcast Storm", "Loop", "BPDU Guard"]
+  },
+  {
+    "kb_id": "KB-NET-008",
+    "category": "Network",
+    "title": "Firewall Blocking Legitimate Application Traffic",
+    "symptoms": "A newly deployed internal application cannot communicate with the database server on port 1433.",
+    "root_cause_analysis": "Default deny policy on the internal firewall is dropping traffic because no explicit allow rule was created for the new application subnet.",
+    "resolution_steps": ["Review firewall traffic logs for dropped packets on TCP 1433.", "Create an access control list (ACL) allowing traffic from the App Subnet to the DB Subnet.", "Commit changes and verify connectivity via telnet."],
+    "keywords": ["Firewall", "ACL", "Blocked", "TCP 1433", "Policy"]
+  },
+  {
+    "kb_id": "KB-NET-009",
+    "category": "Network",
+    "title": "VLAN Tagging Misconfiguration on Trunk Link",
+    "symptoms": "Devices on VLAN 20 on a specific access switch cannot reach the gateway, but VLAN 10 devices on the same switch work fine.",
+    "root_cause_analysis": "The uplink trunk port connecting the access switch to the core switch is missing VLAN 20 in its allowed VLAN list.",
+    "resolution_steps": ["Check trunk port configuration on both the core and access switches.", "Add VLAN 20 to the allowed list (e.g., 'switchport trunk allowed vlan add 20').", "Verify MAC address learning for VLAN 20 on the core switch."],
+    "keywords": ["VLAN", "Trunk", "Tagging", "802.1q", "Switchport"]
+  },
+  {
+    "kb_id": "KB-NET-010",
+    "category": "Network",
+    "title": "MAC Address Flapping",
+    "symptoms": "Switch logs indicate 'MAC address flapping between port Gi1/0/1 and Gi1/0/2'. Intermittent connectivity for a specific server.",
+    "root_cause_analysis": "A dual-homed server is sending traffic with the same source MAC address out of two unaggregated physical NICs, confusing the switch's MAC table.",
+    "resolution_steps": ["Verify server NIC teaming/bonding configuration.", "Configure LACP (Link Aggregation Control Protocol) on both the server and the switch ports.", "Clear the switch MAC address table."],
+    "keywords": ["MAC Flapping", "LACP", "NIC Teaming", "Switch"]
+  },
+  {
+    "kb_id": "KB-WIN-001",
+    "category": "Windows Server",
+    "title": "Active Directory Replication Failure (Tombstone)",
+    "symptoms": "User password resets at HQ are not syncing to the branch office. Repadmin /showrepl reports 'Access is denied' or 'Target principal name is incorrect'.",
+    "root_cause_analysis": "A domain controller was offline longer than the tombstone lifetime (typically 180 days), causing a lingering object conflict and halting replication.",
+    "resolution_steps": ["Run repadmin /showrepl to identify the failing DC.", "If tombstoned, demote the failing DC using dcpromo /forceremoval.", "Clean up metadata in Active Directory Sites and Services, then rebuild the DC."],
+    "keywords": ["Active Directory", "Replication", "Tombstone", "Repadmin", "DC"]
+  },
+  {
+    "kb_id": "KB-WIN-002",
+    "category": "Windows Server",
+    "title": "IIS Application Pool Crash due to Memory Leak",
+    "symptoms": "Web application returns 503 Service Unavailable errors. Event viewer shows WAS (Windows Process Activation Service) terminating the worker process.",
+    "root_cause_analysis": "A memory leak in the hosted .NET application caused the w3wp.exe process to exceed its configured private memory limit, triggering an automated recycle.",
+    "resolution_steps": ["Check IIS Application Pool advanced settings for memory limits.", "Temporarily increase the Private Memory Limit (KB) or set it to 0 (unlimited) as a stopgap.", "Collect a memory dump using DebugDiag for the dev team to patch the code leak."],
+    "keywords": ["IIS", "AppPool", "w3wp.exe", "503", "Memory Leak"]
+  },
+  {
+    "kb_id": "KB-WIN-003",
+    "category": "Windows Server",
+    "title": "Print Spooler Service Hanging",
+    "symptoms": "Users cannot print. Print queues are stuck. Attempting to restart the Print Spooler service via services.msc hangs in 'Stopping' state.",
+    "root_cause_analysis": "A corrupted print job or a faulty third-party printer driver is deadlocking the spoolsv.exe process.",
+    "resolution_steps": ["Kill the spoolsv.exe process via Task Manager or taskkill.", "Navigate to C:\\Windows\\System32\\spool\\PRINTERS and delete all .SHD and .SPL files.", "Restart the Print Spooler service and update the offending printer driver."],
+    "keywords": ["Print Spooler", "spoolsv.exe", "Printing", "Hang", "Queue"]
+  },
+  {
+    "kb_id": "KB-WIN-004",
+    "category": "Windows Server",
+    "title": "RDP Connection Refused (No Licenses Available)",
+    "symptoms": "Administrators or users receive 'The remote session was disconnected because there are no Remote Desktop License Servers available to provide a license'.",
+    "root_cause_analysis": "The 120-day RDS grace period has expired, or the RDS host cannot communicate with the RD Licensing server.",
+    "resolution_steps": ["Open RD Licensing Diagnoser to check connectivity to the license server.", "Verify RDS CALs are installed and activated on the License Server.", "Ensure Group Policy points the session host to the correct License Server IP."],
+    "keywords": ["RDP", "Remote Desktop", "Licensing", "RDS", "CAL"]
+  },
+  {
+    "kb_id": "KB-WIN-005",
+    "category": "Windows Server",
+    "title": "High CPU Usage by TiWorker.exe",
+    "symptoms": "Windows Server is sluggish. Task manager shows TiWorker.exe (Windows Modules Installer Worker) consuming 90%+ CPU for hours.",
+    "root_cause_analysis": "Windows Update is stuck analyzing or applying a massive cumulative update, or the SoftwareDistribution folder is corrupted.",
+    "resolution_steps": ["Stop the Windows Update service (wuauserv).", "Rename C:\\Windows\\SoftwareDistribution to SoftwareDistribution.old.", "Restart the Windows Update service and manually initiate a check for updates."],
+    "keywords": ["TiWorker", "High CPU", "Windows Update", "SoftwareDistribution"]
+  },
+  {
+    "kb_id": "KB-WIN-006",
+    "category": "Windows Server",
+    "title": "DFS Replication Backlog",
+    "symptoms": "Files added to a DFS namespace share in Site A are not appearing in Site B. Users report missing files.",
+    "root_cause_analysis": "Staging folder quota exceeded on the receiving server, causing the DFSR service to pause replication.",
+    "resolution_steps": ["Run 'dfsrdiag backlog' to confirm the backlog count.", "Open DFS Management, right-click the replicated folder, and increase the Staging Quota limit.", "Check Event Viewer (DFS Replication) for Event ID 4208 or 4202."],
+    "keywords": ["DFS", "DFSR", "Replication", "Backlog", "Staging Quota"]
+  },
+  {
+    "kb_id": "KB-WIN-007",
+    "category": "Windows Server",
+    "title": "WMI Repository Corruption",
+    "symptoms": "Monitoring tools fail to pull metrics from the server. Running 'wmimgmt.msc' shows 'Failed to connect to <local computer>'.",
+    "root_cause_analysis": "The Windows Management Instrumentation (WMI) repository has become corrupted due to an improper shutdown or failing disk.",
+    "resolution_steps": ["Open an elevated command prompt.", "Run 'winmgmt /verifyrepository' to check for inconsistencies.", "Run 'winmgmt /salvagerepository' to repair, or 'winmgmt /resetrepository' to rebuild to default."],
+    "keywords": ["WMI", "Repository", "winmgmt", "Monitoring", "Corruption"]
+  },
+  {
+    "kb_id": "KB-WIN-008",
+    "category": "Windows Server",
+    "title": "NTLM Authentication Failures After Patching",
+    "symptoms": "Legacy applications fail to authenticate to the domain controller after applying monthly cumulative updates.",
+    "root_cause_analysis": "Microsoft updates restricting NTLM or enforcing RPC sealing (e.g., CVE patches) blocking legacy, unpatched clients.",
+    "resolution_steps": ["Check Domain Controller event logs for NTLM audit blocks (Event 8004).", "Identify legacy applications using NTLMv1.", "Upgrade application authentication to Kerberos, or temporarily adjust Registry keys to allow legacy protocols if critical."],
+    "keywords": ["NTLM", "Authentication", "Active Directory", "Kerberos", "Patch"]
+  },
+  {
+    "kb_id": "KB-WIN-009",
+    "category": "Windows Server",
+    "title": "Pagefile Exhaustion / Out of Virtual Memory",
+    "symptoms": "Server throws 'Your system is low on virtual memory' pop-ups. Applications crash unpredictably.",
+    "root_cause_analysis": "Physical RAM is exhausted, and the pagefile on the C: drive cannot expand further due to low disk space.",
+    "resolution_steps": ["Free up space on the C: drive.", "Move the pagefile (pagefile.sys) to a dedicated volume with sufficient IOPS and space.", "Investigate memory-hogging processes via Resource Monitor to address root cause."],
+    "keywords": ["Virtual Memory", "Pagefile", "OOM", "Crash", "Disk Space"]
+  },
+  {
+    "kb_id": "KB-WIN-010",
+    "category": "Windows Server",
+    "title": "WSUS Synchronization Failure",
+    "symptoms": "WSUS server stops downloading new updates from Microsoft. Console shows synchronization failed.",
+    "root_cause_analysis": "The WSUS IIS Application Pool (WsusPool) has stopped due to exceeding its private memory limit, common with large update catalogs.",
+    "resolution_steps": ["Open IIS Manager and navigate to Application Pools.", "Right-click WsusPool > Advanced Settings.", "Increase Private Memory Limit (KB) from default 1.8GB to 4GB (4000000) or higher, and start the pool."],
+    "keywords": ["WSUS", "Updates", "WsusPool", "IIS", "Synchronization"]
+  },
+  {
+    "kb_id": "KB-LIN-001",
+    "category": "Linux Server",
+    "title": "OOM (Out of Memory) Killer Terminating Database",
+    "symptoms": "MySQL or PostgreSQL database suddenly crashes. Application goes down. System logs (/var/log/syslog or messages) show 'Out of memory: Killed process'.",
+    "root_cause_analysis": "The system exhausted all physical RAM and swap space, prompting the kernel OOM killer to terminate the process with the highest badness score (usually the DB).",
+    "resolution_steps": ["Review dmesg or syslog to confirm OOM killer invocation.", "Tune database memory parameters (e.g., innodb_buffer_pool_size or shared_buffers) down.", "Add persistent swap space or upgrade server RAM."],
+    "keywords": ["OOM", "Memory", "Database", "Crash", "Kernel"]
+  },
+  {
+    "kb_id": "KB-LIN-002",
+    "category": "Linux Server",
+    "title": "Root Filesystem (/) 100% Full",
+    "symptoms": "Cannot write files, tab completion fails, services fail to start, reporting 'No space left on device'.",
+    "root_cause_analysis": "Runaway log files in /var/log or a user mistakenly extracting large archives into the root directory instead of a mounted data volume.",
+    "resolution_steps": ["Run 'df -h' to confirm the root partition is 100% full.", "Run 'du -sh /* 2>/dev/null | grep G' to find large directories.", "Truncate large log files (e.g., '> /var/log/syslog') and configure logrotate."],
+    "keywords": ["Disk Space", "No space left", "Root", "du", "df"]
+  },
+  {
+    "kb_id": "KB-LIN-003",
+    "category": "Linux Server",
+    "title": "SSH Connection Refused / Timeout",
+    "symptoms": "Administrators cannot SSH into the server. 'Connection refused' or 'Connection timed out' errors.",
+    "root_cause_analysis": "The sshd service is down, a firewall (iptables/firewalld) rule is blocking port 22, or Fail2Ban banned the administrator's IP address.",
+    "resolution_steps": ["Access the server via hypervisor console.", "Check sshd status ('systemctl status sshd').", "Check iptables/ufw/firewalld for dropped port 22 traffic, or unban IP in Fail2Ban."],
+    "keywords": ["SSH", "sshd", "Connection Refused", "Fail2Ban", "Firewall"]
+  },
+  {
+    "kb_id": "KB-LIN-004",
+    "category": "Linux Server",
+    "title": "Inode Exhaustion (No space left on device)",
+    "symptoms": "Cannot create new files, receiving 'No space left on device' error, even though 'df -h' shows plenty of available disk space.",
+    "root_cause_analysis": "The filesystem has run out of available inodes, usually caused by millions of tiny files (like session files or mail queues) consuming all index nodes.",
+    "resolution_steps": ["Run 'df -i' to verify inode exhaustion (100% IUse).", "Find directories with massive file counts using: 'find / -xdev -type f | cut -d \"/\" -f 2 | sort | uniq -c | sort -n'.", "Delete the excessive small files (e.g., clear PHP session folder)."],
+    "keywords": ["Inode", "No space left", "Filesystem", "df -i", "Small files"]
+  },
+  {
+    "kb_id": "KB-LIN-005",
+    "category": "Linux Server",
+    "title": "Zombie Processes Hogging PID Space",
+    "symptoms": "System cannot spawn new processes. 'fork: retry: Resource temporarily unavailable'.",
+    "root_cause_analysis": "A poorly written application is spawning child processes but failing to 'wait()' for them to terminate, leaving thousands of defunct (zombie) processes filling the PID table.",
+    "resolution_steps": ["Run 'top' or 'ps aux | grep Z' to identify zombie processes.", "Identify the parent process ID (PPID) of the zombies.", "Kill or restart the parent process to allow the init system to reap the zombies."],
+    "keywords": ["Zombie", "Defunct", "PID", "Fork", "Resource unavailable"]
+  },
+  {
+    "kb_id": "KB-LIN-006",
+    "category": "Linux Server",
+    "title": "SELinux Blocking Service Execution",
+    "symptoms": "A newly installed web server (Nginx/Apache) fails to access a custom document root directory, throwing 403 Forbidden, despite correct standard file permissions.",
+    "root_cause_analysis": "SELinux is enforcing policies and the custom directory lacks the correct SELinux security context (e.g., httpd_sys_content_t).",
+    "resolution_steps": ["Check SELinux audit logs: 'grep AVC /var/log/audit/audit.log'.", "Temporarily set SELinux to permissive ('setenforce 0') to confirm it's the culprit.", "Restore SELinux contexts using 'chcon' or 'semanage fcontext', then 'restorecon -Rv /custom/dir'."],
+    "keywords": ["SELinux", "AVC", "Permissions", "403", "Context"]
+  },
+  {
+    "kb_id": "KB-LIN-007",
+    "category": "Linux Server",
+    "title": "LVM Volume Full - Requires Extension",
+    "symptoms": "A specific logical volume (e.g., /var/lib/docker) is full, preventing containers from starting.",
+    "root_cause_analysis": "Docker container images and volumes have filled the allocated LVM logical volume, requiring expansion.",
+    "resolution_steps": ["Verify available space in the Volume Group using 'vgs'.", "Extend the logical volume using 'lvextend -l +100%FREE /dev/mapper/vg0-docker'.", "Resize the underlying filesystem using 'resize2fs' (ext4) or 'xfs_growfs' (XFS)."],
+    "keywords": ["LVM", "vgs", "lvextend", "resize2fs", "Volume"]
+  },
+  {
+    "kb_id": "KB-LIN-008",
+    "category": "Linux Server",
+    "title": "Cron Job Not Executing",
+    "symptoms": "A scheduled backup script is not running at the specified times via crontab.",
+    "root_cause_analysis": "The script lacks execute permissions, relies on environmental variables not present in the restricted cron shell, or has absolute path issues.",
+    "resolution_steps": ["Check cron logs in /var/log/syslog or /var/log/cron.", "Ensure the script is executable ('chmod +x script.sh').", "Edit crontab to use absolute paths for commands (e.g., /usr/bin/rsync) and explicitly source profile files if needed."],
+    "keywords": ["Cron", "Crontab", "Scheduling", "Permissions", "Environment variables"]
+  },
+  {
+    "kb_id": "KB-LIN-009",
+    "category": "Linux Server",
+    "title": "DNS Resolution Extremely Slow (systemd-resolved)",
+    "symptoms": "Commands like 'curl', 'apt-get update', or 'ping hostname' take 5-10 seconds to resolve before executing, but work immediately with IP addresses.",
+    "root_cause_analysis": "The primary nameserver in /etc/resolv.conf is unreachable, causing systemd-resolved to wait for a timeout before querying the secondary nameserver.",
+    "resolution_steps": ["Check systemd-resolved status using 'resolvectl status'.", "Verify reachability of DNS servers listed in /etc/systemd/resolved.conf or netplan configs.", "Remove the dead DNS server IP and restart systemd-resolved."],
+    "keywords": ["DNS", "systemd-resolved", "Timeout", "Slow", "resolv.conf"]
+  },
+  {
+    "kb_id": "KB-LIN-010",
+    "category": "Linux Server",
+    "title": "Network Interface Dropping Packets (Ring Buffer)",
+    "symptoms": "High-throughput server (like a load balancer or database) is dropping network packets, causing retransmissions and latency, despite plenty of CPU/RAM.",
+    "root_cause_analysis": "The network interface card (NIC) RX ring buffers are too small for the burst traffic, causing buffer overflows before the CPU can process interrupts.",
+    "resolution_steps": ["Check drop statistics using 'ethtool -S eth0 | grep drop' or 'ifconfig'.", "Check current ring buffer sizes with 'ethtool -g eth0'.", "Increase the RX ring buffer size temporarily using 'ethtool -G eth0 rx 4096' and persist it in network config."],
+    "keywords": ["Packet Drop", "Ring Buffer", "ethtool", "NIC", "Throughput"]
+  }
+]

@@ -1,0 +1,13 @@
+2026-07-04 18:54:08,816 [INFO] Scanning directory: knowledgebase
+2026-07-04 18:55:31,588 [INFO] Scanning directory: knowledgebase
+2026-07-04 18:56:27,216 [INFO] Scanning directory: D:\AI-Projects\Self_developed_AI\Agentic_ServiceNow_Ticket_Resolution\knowledgebase
+2026-07-04 18:58:10,642 [INFO] Scanning directory: Agentic_ServiceNow_Ticket_Resolution\knowledgebase
+2026-07-04 18:58:10,642 [ERROR] Directory not found: Agentic_ServiceNow_Ticket_Resolution\knowledgebase
+2026-07-04 18:58:10,646 [INFO] Created empty directory at 'Agentic_ServiceNow_Ticket_Resolution\knowledgebase'. Please add your files and run again.
+2026-07-04 18:59:43,842 [INFO] Scanning directory: knowledgebase
+2026-07-04 22:53:53,156 [INFO] Scanning directory: knowledgebase
+2026-07-04 22:55:25,582 [INFO] Scanning directory: D:\AI-Projects\Self_developed_AI\Agentic_ServiceNow_Ticket_Resolution\knowledgebase
+2026-07-04 22:57:05,719 [INFO] Scanning directory: D:\AI-Projects\Self_developed_AI\Agentic_ServiceNow_Ticket_Resolution\knowledgebase
+2026-07-04 22:57:05,720 [INFO] Processing file: Network Issues.pdf with extension: .pdf
+2026-07-04 22:57:05,720 [INFO] Processing file: server_issues.pdf with extension: .pdf
+2026-07-04 23:13:14,989 [INFO] Scanning directory: D:\AI-Projects\Self_developed_AI\Agentic_ServiceNow_Ticket_Resolution\knowledgebase
