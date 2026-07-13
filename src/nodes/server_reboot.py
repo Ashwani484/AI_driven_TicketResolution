@@ -27,5 +27,5 @@ def server_reboot(state:serverstate):
     print("Server reboot node executed.")
     print(f"Incident Number: {state['inc_number']}")
     
-    return {"solution": "Server issue resolve, See RESOLUTION_NOTES SOPs", "resolution_time": date, "state": "Resolved",  "resolved_by": "AgenticAI_AKS"}
+    return {"solution": "Server issue resolve, See work_notes SOPs", "resolution_time": date, "state": "Resolved",  "resolved_by": "AgenticAI_AKS"}
 

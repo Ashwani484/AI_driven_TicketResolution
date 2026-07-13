@@ -12,7 +12,7 @@ from src.paths import *
 from src.log import setup_logger
 from src.orchestrator.vectorstore.rag import DocumentProcessor
 from src.llm import init_llm,llm_explanation
-
+import time
 
 logs=setup_logger(LOG_DIR)
 logs.info("Orchestrator agent Initiated.....")
@@ -94,16 +94,20 @@ def retrieval_node(state: incidentstate) -> incidentstate:
         logs.info("Vector store import failed:", e)
         state["work_notes"] = []
         return state
-    list_categ=['network','server']
+    list_categ=['network','server', 'cache', 'optimize']
     createg=state.get("category")
     text = state.get("full_description")
     if not text or createg not in list_categ:
         results=[]
         llm_response=llm_explanation(llm,str(state["short_description"]),str(state["full_description"]),results)
         state["work_notes"] = llm_response
+        state["state"]="In Progress"
+        time.sleep(10)  # Simulate processing time
         return state
     elif  state.get("urgency") in ["Critical", "Medium","High"]:
          logs.info("Human in the Loop required due to critical problem")
+         state["state"]="In Progress"
+         time.sleep(10)
          return state
     else:
         try:
@@ -114,6 +118,8 @@ def retrieval_node(state: incidentstate) -> incidentstate:
             llm_response=llm_explanation(llm,str(state["short_description"]),str(state["full_description"]),results)
             #logs.info(f"LLM Response: {llm_response}")
             state["work_notes"] = llm_response
+            state["state"]="In Progress"
+            time.sleep(10)
 
         except Exception as e:
             logs.info("RAG query failed:", e)
@@ -127,7 +133,7 @@ def human_review_node(state: incidentstate) -> incidentstate:
     state["work_notes"] = "Escalated for Human validation due to HIGH PRIORITY and High Risk"
     state["resolved_by"] = "Human"
     state["state"] = "Hold"
-    state["escalated_to"]="L3 Engineer"
+    state["escalated_to"]="L3 Engineer/Manager"
     return state
 
 
@@ -189,9 +195,9 @@ class Orchestrator:
             incident.state = result["state"]
             incident.solution = result["solution"]
             incident.resolved_by=result["resolved_by"]
-            incident.work_notes=result["work_notes"]
             incident.escalated_to=result["escalated_to"]
             incident.resolution_time=incident.creation_date
+            incident.work_notes=result["work_notes"]
             db.commit()
             db.refresh(incident)
         db.close()

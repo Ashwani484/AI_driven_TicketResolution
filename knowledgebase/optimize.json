@@ -1,0 +1,92 @@
+[
+  {
+    "kb_id": "KB-SYS-001",
+    "category": "System Optimization",
+    "title": "Application Cache Causing Disk Bloat",
+    "symptoms": "Disk usage spikes unexpectedly. Applications slow down due to excessive cached files.",
+    "root_cause_analysis": "Application cache directories (e.g., browser or IDE caches) accumulate large files over time.",
+    "resolution_steps": ["Identify cache-heavy directories (AppData, ~/.cache).", "Clear cache using built-in app settings or manually delete.", "Automate cleanup with scheduled scripts."],
+    "keywords": ["Cache", "Disk Space", "Cleanup", "AppData"]
+  },
+  {
+    "kb_id": "KB-SYS-002",
+    "category": "System Optimization",
+    "title": "Slow Performance Due to Temp File Accumulation",
+    "symptoms": "System boot and app launch times degrade.",
+    "root_cause_analysis": "Temporary files in /tmp or C:\\Windows\\Temp accumulate without cleanup.",
+    "resolution_steps": ["Run 'Disk Cleanup' or 'rm -rf /tmp/*'.", "Schedule periodic cleanup tasks.", "Configure applications to auto-purge temp files."],
+    "keywords": ["Temp Files", "Cleanup", "Performance"]
+  },
+  {
+    "kb_id": "KB-SYS-003",
+    "category": "System Optimization",
+    "title": "Browser Cache Corruption",
+    "symptoms": "Websites fail to load correctly or show outdated content.",
+    "root_cause_analysis": "Corrupted browser cache entries prevent proper rendering.",
+    "resolution_steps": ["Clear browser cache via settings.", "Delete cache directories manually.", "Restart browser and verify site rendering."],
+    "keywords": ["Browser", "Cache", "Corruption", "Web"]
+  },
+  {
+    "kb_id": "KB-SYS-004",
+    "category": "System Optimization",
+    "title": "Package Manager Cache Overflow",
+    "symptoms": "Linux package updates fail due to insufficient disk space.",
+    "root_cause_analysis": "APT/YUM cache directories store outdated packages consuming space.",
+    "resolution_steps": ["Run 'apt-get clean' or 'yum clean all'.", "Automate cache cleanup post-updates.", "Monitor disk usage with 'du -sh /var/cache'."],
+    "keywords": ["APT", "YUM", "Cache", "Linux"]
+  },
+  {
+    "kb_id": "KB-SYS-005",
+    "category": "System Optimization",
+    "title": "System Restore Points Consuming Space",
+    "symptoms": "Low disk space warnings on Windows servers.",
+    "root_cause_analysis": "Excessive restore points stored in System Volume Information.",
+    "resolution_steps": ["Open System Protection settings.", "Delete old restore points.", "Limit maximum disk usage for restore points."],
+    "keywords": ["Windows", "Restore Points", "Disk Space"]
+  },
+  {
+    "kb_id": "KB-SYS-006",
+    "category": "System Optimization",
+    "title": "Log File Cache Overflow",
+    "symptoms": "Applications crash due to full disk.",
+    "root_cause_analysis": "Unrotated logs in /var/log or C:\\Logs consume space.",
+    "resolution_steps": ["Implement logrotate or Windows Event Log archiving.", "Compress old logs.", "Monitor log growth with scripts."],
+    "keywords": ["Logs", "Cache", "Disk Full"]
+  },
+  {
+    "kb_id": "KB-SYS-007",
+    "category": "System Optimization",
+    "title": "DNS Cache Stale Entries",
+    "symptoms": "Hosts resolve to incorrect IPs.",
+    "root_cause_analysis": "Local DNS resolver cache contains outdated records.",
+    "resolution_steps": ["Run 'ipconfig /flushdns' (Windows).", "Restart systemd-resolved (Linux).", "Verify resolution with nslookup/dig."],
+    "keywords": ["DNS", "Cache", "Flush", "Resolution"]
+  },
+  {
+    "kb_id": "KB-SYS-008",
+    "category": "System Optimization",
+    "title": "GPU Driver Cache Corruption",
+    "symptoms": "Graphical applications fail to launch or crash.",
+    "root_cause_analysis": "Corrupted shader cache files in GPU driver directories.",
+    "resolution_steps": ["Delete GPU shader cache files.", "Update/reinstall GPU drivers.", "Reboot system to rebuild cache."],
+    "keywords": ["GPU", "Shader Cache", "Driver"]
+  },
+  {
+    "kb_id": "KB-SYS-009",
+    "category": "System Optimization",
+    "title": "Build System Cache Overflow",
+    "symptoms": "CI/CD pipelines fail due to disk exhaustion.",
+    "root_cause_analysis": "Build tools (npm, pip, Maven) cache dependencies indefinitely.",
+    "resolution_steps": ["Run 'npm cache clean --force' or 'pip cache purge'.", "Configure CI/CD to clear caches post-build.", "Monitor cache directories regularly."],
+    "keywords": ["Build Cache", "CI/CD", "npm", "pip"]
+  },
+  {
+    "kb_id": "KB-SYS-010",
+    "category": "System Optimization",
+    "title": "Swap File Fragmentation",
+    "symptoms": "System slows down under heavy load.",
+    "root_cause_analysis": "Swap file fragmented across disk, reducing performance.",
+    "resolution_steps": ["Disable and recreate swap file.", "Allocate swap on dedicated fast storage.", "Monitor swap usage with 'vmstat' or Resource Monitor."],
+    "keywords": ["Swap", "Fragmentation", "Performance"]
+  }
+]

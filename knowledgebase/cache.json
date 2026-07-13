@@ -1,0 +1,92 @@
+[
+  {
+    "kb_id": "KB-CACHE-001",
+    "category": "Cache deletion",
+    "title": "Windows Update Cache Corruption",
+    "symptoms": "Updates fail to install with error codes like 0x80070002.",
+    "root_cause_analysis": "Corrupted files in the SoftwareDistribution cache prevent update processing.",
+    "resolution_steps": ["Stop Windows Update service.", "Delete C:\\Windows\\SoftwareDistribution contents.", "Restart service and retry updates."],
+    "keywords": ["Windows Update", "Cache", "SoftwareDistribution", "Corruption"]
+  },
+  {
+    "kb_id": "KB-CACHE-002",
+    "category": "Cache deletion",
+    "title": "Linux Package Manager Cache Overflow",
+    "symptoms": "APT/YUM operations fail due to disk space exhaustion.",
+    "root_cause_analysis": "Old package files accumulate in /var/cache/apt or /var/cache/yum.",
+    "resolution_steps": ["Run 'apt-get clean' or 'yum clean all'.", "Schedule cache cleanup post-updates.", "Monitor cache growth with 'du -sh /var/cache'."],
+    "keywords": ["APT", "YUM", "Cache", "Linux"]
+  },
+  {
+    "kb_id": "KB-CACHE-003",
+    "category": "Cache deletion",
+    "title": "Application Cache Causing Performance Lag",
+    "symptoms": "IDE or browser runs sluggishly after prolonged use.",
+    "root_cause_analysis": "Excessive cached files in application directories consume resources.",
+    "resolution_steps": ["Clear cache via app settings.", "Manually delete cache folders.", "Automate cleanup with scripts."],
+    "keywords": ["Application Cache", "Performance", "Cleanup"]
+  },
+  {
+    "kb_id": "KB-CACHE-004",
+    "category": "Cache deletion",
+    "title": "Thumbnail Cache Bloat",
+    "symptoms": "Explorer or file manager loads slowly when browsing directories.",
+    "root_cause_analysis": "Thumbnail cache database grows excessively with repeated file previews.",
+    "resolution_steps": ["Delete thumbnail cache files.", "Run 'Disk Cleanup' utility.", "Disable thumbnail caching if unnecessary."],
+    "keywords": ["Thumbnail Cache", "Explorer", "Disk Cleanup"]
+  },
+  {
+    "kb_id": "KB-CACHE-005",
+    "category": "Cache deletion",
+    "title": "DNS Resolver Cache Stale Records",
+    "symptoms": "Hosts resolve to incorrect IP addresses.",
+    "root_cause_analysis": "Local DNS cache retains outdated entries.",
+    "resolution_steps": ["Run 'ipconfig /flushdns' (Windows).", "Restart systemd-resolved (Linux).", "Verify resolution with nslookup/dig."],
+    "keywords": ["DNS", "Cache", "Flush", "Resolution"]
+  },
+  {
+    "kb_id": "KB-CACHE-006",
+    "category": "Cache deletion",
+    "title": "GPU Shader Cache Corruption",
+    "symptoms": "Games or 3D apps crash or fail to render properly.",
+    "root_cause_analysis": "Corrupted shader cache files in GPU driver directories.",
+    "resolution_steps": ["Delete GPU shader cache.", "Update/reinstall GPU drivers.", "Reboot to rebuild cache."],
+    "keywords": ["GPU", "Shader Cache", "Driver"]
+  },
+  {
+    "kb_id": "KB-CACHE-007",
+    "category": "Cache deletion",
+    "title": "Web Proxy Cache Serving Stale Content",
+    "symptoms": "Users receive outdated web pages despite updates.",
+    "root_cause_analysis": "Proxy cache fails to refresh content due to misconfigured TTL.",
+    "resolution_steps": ["Clear proxy cache manually.", "Adjust cache expiration policies.", "Verify proxy refresh intervals."],
+    "keywords": ["Proxy", "Cache", "Stale Content", "TTL"]
+  },
+  {
+    "kb_id": "KB-CACHE-008",
+    "category": "Cache deletion",
+    "title": "Build Tool Cache Overflow",
+    "symptoms": "CI/CD pipelines fail due to disk exhaustion.",
+    "root_cause_analysis": "npm/pip/Maven caches dependencies indefinitely.",
+    "resolution_steps": ["Run 'npm cache clean --force' or 'pip cache purge'.", "Configure CI/CD cleanup jobs.", "Monitor cache directories regularly."],
+    "keywords": ["Build Cache", "CI/CD", "npm", "pip"]
+  },
+  {
+    "kb_id": "KB-CACHE-009",
+    "category": "Cache deletion",
+    "title": "Font Cache Corruption",
+    "symptoms": "Applications crash or fail to render text correctly.",
+    "root_cause_analysis": "Corrupted font cache files prevent proper rendering.",
+    "resolution_steps": ["Delete font cache files (Windows: C:\\Windows\\ServiceProfiles\\LocalService\\AppData\\Local\\FontCache).", "Reboot system to rebuild cache.", "Update fonts if necessary."],
+    "keywords": ["Font Cache", "Corruption", "Rendering"]
+  },
+  {
+    "kb_id": "KB-CACHE-010",
+    "category": "Cache deletion",
+    "title": "Browser Cache Causing Login Failures",
+    "symptoms": "Users cannot log into web apps despite correct credentials.",
+    "root_cause_analysis": "Corrupted cookies or cached session data block authentication.",
+    "resolution_steps": ["Clear browser cache and cookies.", "Restart browser.", "Reattempt login with fresh session."],
+    "keywords": ["Browser Cache", "Cookies", "Login", "Authentication"]
+  }
+]

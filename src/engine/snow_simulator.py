@@ -29,7 +29,7 @@ elif menu == "Create Incident":
     with st.form("incident_form"):
         col1, col2 = st.columns(2)
         with col1:
-            category = st.text_input("Category", "network")
+            category = st.selectbox("Category", ['network','server', 'cache', 'optimize'])
             creation_date = st.date_input("Creation Date", datetime.date.today())
             state = st.selectbox("State", ["New", "In Progress", "Resolved", "Closed"])
         with col2:
@@ -55,7 +55,7 @@ elif menu == "Create Incident":
                 "solution": "",
                 "resolution_time": None,
                 "escalated_to": "",
-                "resolution_notes": "",
+                "work_notes": "",
                 "resolved_by": ""
             }
             response = requests.post(API_BASE, json=payload)

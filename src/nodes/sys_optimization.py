@@ -26,8 +26,6 @@ class optimizestate(TypedDict):
 def sys_optimization(state:optimizestate):
     print("System optimization node executed.")
     print(f"Incident Number: {state['inc_number']}")
-    llm_response=llm_explanation(llm,str(state["short_description"]),str(state["full_description"]))
-    print(f"LLM Response: {llm_response}")
-    return {"solution": llm_response, "resolution_time": date, "state": "Resolved", "resolution_notes": "Solution implemented as per LLM recommendation.", "resolved_by": "AgenticAI_AKS"}
+    return {"solution": "System optimization completed successfully. Runbook executed.", "resolution_time": date, "state": "Resolved",  "resolved_by": "AgenticAI_AKS"}
 
 

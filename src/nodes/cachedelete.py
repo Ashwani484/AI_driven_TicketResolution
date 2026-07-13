@@ -26,7 +26,5 @@ class cachestate(TypedDict):
 def cachedeletion(state:cachestate):
     print("Cache deletion node executed.")
     print(f"Incident Number: {state['inc_number']}")
-    llm_response=llm_explanation(llm,str(state["short_description"]),str(state["full_description"]),SOP=None)
-    print(f"LLM Response: {llm_response}")
-    return {"solution": llm_response, "resolution_time": date, "state": "Resolved", "resolution_notes": "Solution implemented as per LLM recommendation.", "resolved_by": "AgenticAI_AKS"}
+    return {"solution": "Cache deletion runbook triggered by Agents and Cache files deleted .", "resolution_time": date, "state": "Resolved", "resolved_by": "AgenticAI_AKS"}
 
